@@ -5,15 +5,17 @@ const {
   getPlans,
   updatePlan,
   deletePlan,
+  getPlanById,
 } = require("../controllers/membershipController");
 const verifyToken = require("../middleware/verifyToken");
 
 // Public: Get all plans
 router.get("/", getPlans);
+router.get("/:id", getPlanById); // ⬅️ Add this GET route for single plan
 
 // Admin-only routes
-router.post("/", verifyToken, addPlan);
-router.put("/:id", verifyToken, updatePlan);
-router.delete("/:id", verifyToken, deletePlan);
+router.post("/", addPlan);
+router.put("/:id", updatePlan);
+router.delete("/:id", deletePlan);
 
 module.exports = router;

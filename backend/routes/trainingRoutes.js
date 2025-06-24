@@ -3,17 +3,24 @@ const router = express.Router();
 const {
   addTraining,
   getTrainings,
+  getTrainingById,
   updateTraining,
   deleteTraining,
 } = require("../controllers/trainingController");
-const verifyToken = require("../middleware/verifyToken");
 
-// Public
+// All Trainings
 router.get("/", getTrainings);
 
-// Admin-only
-router.post("/", verifyToken, addTraining);
-router.put("/:id", verifyToken, updateTraining);
-router.delete("/:id", verifyToken, deleteTraining);
+// Single Training by ID
+router.get("/:id", getTrainingById);
+
+// Add Training
+router.post("/", addTraining);
+
+// Update
+router.put("/:id", updateTraining);
+
+// Delete
+router.delete("/:id", deleteTraining);
 
 module.exports = router;

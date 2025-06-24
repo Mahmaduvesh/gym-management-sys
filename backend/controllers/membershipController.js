@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 exports.addPlan = async (req, res) => {
   try {
     const planId = uuidv4();
-    const data = req.body;
+    const data = { id: planId, ...req.body }; // Include ID inside the data
 
     await admin.database().ref(`memberships/${planId}`).set(data);
 
@@ -15,35 +15,63 @@ exports.addPlan = async (req, res) => {
   }
 };
 
-// Get All Plans (User & Admin)
-exports.getPlans = async (req, res) => {
+// Get Single Plan by ID
+exports.getPlanById = async (req, res) => {
   try {
-    const snapshot = await admin.database().ref("memberships").once("value");
-    const plans = snapshot.val() || {};
-    res
-      .status(200)
-      .json(Object.entries(plans).map(([id, val]) => ({ id, ...val })));
+    const { id } = req.params;
+    const snapshot = await admin
+      .database()
+      .ref(`memberships/${id}`)
+      .once("value");
+    const plan = snapshot.val();
+
+    if (!plan) {
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    res.status(200).json(plan);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Update Plan (Admin)
+// Get All Membership Plans (User & Admin)
+exports.getPlans = async (req, res) => {
+  try {
+    const snapshot = await admin.database().ref("memberships").once("value");
+    const plans = snapshot.val() || {};
+    const formattedPlans = Object.entries(plans).map(([id, val]) => ({
+      id,
+      ...val,
+    }));
+
+    res.status(200).json(formattedPlans);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Update Membership Plan (Admin)
 exports.updatePlan = async (req, res) => {
   try {
     const { id } = req.params;
-    await admin.database().ref(`memberships/${id}`).update(req.body);
+    const data = { ...req.body, id }; // Ensure ID is preserved during update
+
+    await admin.database().ref(`memberships/${id}`).update(data);
+
     res.status(200).json({ message: "Plan updated successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Delete Plan (Admin)
+// Delete Membership Plan (Admin)
 exports.deletePlan = async (req, res) => {
   try {
     const { id } = req.params;
+
     await admin.database().ref(`memberships/${id}`).remove();
+
     res.status(200).json({ message: "Plan deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });

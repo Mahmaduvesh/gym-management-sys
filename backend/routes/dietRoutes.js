@@ -5,15 +5,17 @@ const {
   getDiets,
   updateDiet,
   deleteDiet,
+  getDietById,
 } = require("../controllers/dietController");
 const verifyToken = require("../middleware/verifyToken");
 
 // Public
 router.get("/", getDiets);
+router.get("/:id", getDietById);
 
 // Admin
-router.post("/", verifyToken, addDiet);
-router.put("/:id", verifyToken, updateDiet);
-router.delete("/:id", verifyToken, deleteDiet);
+router.post("/", addDiet);
+router.put("/:id", updateDiet);
+router.delete("/:id", deleteDiet);
 
 module.exports = router;

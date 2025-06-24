@@ -14,6 +14,26 @@ exports.addDiet = async (req, res) => {
   }
 };
 
+// Get single diet plan
+exports.getDietById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const snapshot = await admin
+      .database()
+      .ref(`dietPlans/${id}`)
+      .once("value");
+    const diet = snapshot.val();
+
+    if (!diet) {
+      return res.status(404).json({ error: "Diet plan not found" });
+    }
+
+    res.status(200).json({ id, ...diet });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Get all diet plans
 exports.getDiets = async (req, res) => {
   try {
