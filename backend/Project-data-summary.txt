@@ -1,0 +1,28 @@
+👥 User Panel – Core Features
+Registered users can log in and access the following modules:
+
+✅ Membership Plans: Explore detailed gym packages including pricing, duration, facilities, and training schedules.
+
+✅ Training Schedule: View daily exercise plans tailored for fitness routines (added by the admin).
+
+✅ Diet & Nutrition Plans: Access recommended daily meal plans provided by fitness coaches and nutritionists.
+
+✅ Testimonials: Browse inspirational testimonials from existing gym members (curated and published by the admin).
+
+✅ Submit Feedback: Share feedback or suggestions with the gym team. These are visible only on the admin side.
+
+✅ About & Contact: Learn about the gym, its values, services, staff, and find contact information.
+
+🛠️ Admin Panel – Full Control Dashboard
+Admins have exclusive access to a secure dashboard with content management features:
+
+🔧 Manage Membership Plans: Add, edit, or remove gym packages with full customization of details and timings.
+
+📅 Manage Training & Diet Plans: Define and update daily workout and meal plans visible to users.
+
+🌟 Testimonials Management: Add, update, or delete success stories and motivational content for the user-facing testimonials section.
+
+💬 View User Feedback: Access and review feedback submitted by members to gather insights and improve services.
+
+👥 (Optional) User Overview: View user registration data and manage activity logs or user status (advanced feature).
+
