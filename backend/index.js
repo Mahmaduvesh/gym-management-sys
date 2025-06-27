@@ -1,7 +1,10 @@
+// ✅ Load environment variables FIRST
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
-const authRoutes = require("./routes/authRoutes");
+
+const adminAuthRoutes = require("./routes/adminAuthRoutes");
 const membershipRoutes = require("./routes/membershipRoutes");
 const trainingRoutes = require("./routes/trainingRoutes");
 const dietRoutes = require("./routes/dietRoutes");
@@ -9,14 +12,17 @@ const testimonialRoutes = require("./routes/testimonialRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 
-dotenv.config();
+// ✅ User routes
+const userAuthRoutes = require("./routes/userAuthRoutes");
 
 const app = express();
+
+// ✅ Middleware
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
-
+// ✅ API Routes
+app.use("/api/admin", adminAuthRoutes);
 app.use("/api/memberships", membershipRoutes);
 app.use("/api/training", trainingRoutes);
 app.use("/api/diets", dietRoutes);
@@ -24,7 +30,11 @@ app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/feedbacks", feedbackRoutes);
 app.use("/api/contacts", contactRoutes);
 
+// ✅ User authentication routes
+app.use("/api/user", userAuthRoutes);
+
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });

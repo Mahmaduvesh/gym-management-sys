@@ -8,10 +8,10 @@ const {
 const verifyToken = require("../middleware/verifyToken");
 
 // Public (User sends message)
-router.post("/", verifyToken, addContact);
+router.post("/", addContact);
 
 // Admin
-router.get("/", verifyToken, getContacts);
-router.delete("/:id", verifyToken, deleteContact);
+router.get("/", getContacts);
+router.delete("/:id", deleteContact);
 
 module.exports = router;

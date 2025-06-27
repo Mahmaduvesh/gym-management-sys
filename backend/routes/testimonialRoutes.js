@@ -11,7 +11,7 @@ const verifyToken = require("../middleware/verifyToken");
 router.get("/", getTestimonials);
 
 // Admin
-router.post("/", verifyToken, addTestimonial);
-router.delete("/:id", verifyToken, deleteTestimonial);
+router.post("/", addTestimonial);
+router.delete("/:id", deleteTestimonial);
 
 module.exports = router;
