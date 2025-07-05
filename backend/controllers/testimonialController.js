@@ -1,62 +1,79 @@
 const admin = require("../config/firebase");
 const { v4: uuidv4 } = require("uuid");
 
-// ✅ Add Testimonial (Admin only)
+// ✅ Add Testimonial
 exports.addTestimonial = async (req, res) => {
   try {
     const id = uuidv4();
-    const { name, message, role, photo } = req.body;
+    const { name, role, message, photo, rating = 5 } = req.body;
 
-    if (!name || !message) {
-      return res.status(400).json({ error: "Name and message are required" });
-    }
-
-    const newTestimonial = {
+    const testimonial = {
       name,
-      message,
-      role: role || "User",
-      photo: photo || "",
-      timestamp: new Date().toISOString(),
+      role: role || "",
+      text: message, // ✅ correctly stored as `text`
+      image: photo || "",
+      rating,
+      timestamp: Date.now(),
     };
 
-    await admin.database().ref(`testimonials/${id}`).set(newTestimonial);
+    await admin.database().ref(`testimonials/${id}`).set(testimonial);
     res.status(201).json({ message: "Testimonial added", id });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// ✅ Get All Testimonials (User View)
+// ✅ Get All Testimonials
 exports.getTestimonials = async (req, res) => {
   try {
     const snapshot = await admin.database().ref("testimonials").once("value");
-    const list = snapshot.val() || {};
+    const raw = snapshot.val() || {};
 
-    const testimonials = Object.entries(list)
-      .map(([id, val]) => ({ id, ...val }))
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Optional: newest first
+    const testimonials = Object.entries(raw).map(([id, val]) => ({
+      id,
+      ...val,
+    }));
 
     res.status(200).json(testimonials);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// ✅ Delete Testimonial (Admin only)
+// ✅ Delete Testimonial
 exports.deleteTestimonial = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const ref = admin.database().ref(`testimonials/${id}`);
-    const snapshot = await ref.once("value");
-
-    if (!snapshot.exists()) {
-      return res.status(404).json({ error: "Testimonial not found" });
-    }
-
-    await ref.remove();
+    await admin.database().ref(`testimonials/${id}`).remove();
     res.status(200).json({ message: "Testimonial deleted" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// ✅ Update Testimonial
+exports.updateTestimonial = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await admin.database().ref(`testimonials/${id}`).update(req.body);
+    res.status(200).json({ message: "Testimonial updated" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// ✅ Get One Testimonial by ID
+exports.getTestimonialById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const snapshot = await admin
+      .database()
+      .ref(`testimonials/${id}`)
+      .once("value");
+    const data = snapshot.val();
+    if (data) res.status(200).json(data);
+    else res.status(404).json({ message: "Not found" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

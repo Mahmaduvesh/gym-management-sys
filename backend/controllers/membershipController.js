@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 exports.addPlan = async (req, res) => {
   try {
     const planId = uuidv4();
-    const data = { id: planId, ...req.body }; // Include ID inside the data
+    const data = { id: planId, ...req.body };
 
     await admin.database().ref(`memberships/${planId}`).set(data);
 
@@ -35,11 +35,12 @@ exports.getPlanById = async (req, res) => {
   }
 };
 
-// Get All Membership Plans (User & Admin)
+// Get All Membership Plans (Admin + User)
 exports.getPlans = async (req, res) => {
   try {
     const snapshot = await admin.database().ref("memberships").once("value");
     const plans = snapshot.val() || {};
+
     const formattedPlans = Object.entries(plans).map(([id, val]) => ({
       id,
       ...val,
@@ -55,7 +56,7 @@ exports.getPlans = async (req, res) => {
 exports.updatePlan = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = { ...req.body, id }; // Ensure ID is preserved during update
+    const data = { ...req.body, id };
 
     await admin.database().ref(`memberships/${id}`).update(data);
 

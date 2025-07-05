@@ -14,6 +14,7 @@ const contactRoutes = require("./routes/contactRoutes");
 
 // ✅ User routes
 const userAuthRoutes = require("./routes/userAuthRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -32,6 +33,11 @@ app.use("/api/contacts", contactRoutes);
 
 // ✅ User authentication routes
 app.use("/api/user", userAuthRoutes);
+
+app.use("/api", require("./routes/stats"));
+
+// Routes fect all users
+app.use("/api/users", userRoutes);
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;

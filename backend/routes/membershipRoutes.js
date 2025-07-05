@@ -1,21 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const {
-  addPlan,
-  getPlans,
-  updatePlan,
-  deletePlan,
-  getPlanById,
-} = require("../controllers/membershipController");
-const verifyToken = require("../middleware/verifyToken");
+const membershipController = require("../controllers/membershipController");
 
-// Public: Get all plans
-router.get("/", getPlans);
-router.get("/:id", getPlanById); // ⬅️ Add this GET route for single plan
+// Admin
+router.post("/", membershipController.addPlan);
+router.put("/:id", membershipController.updatePlan);
+router.delete("/:id", membershipController.deletePlan);
 
-// Admin-only routes
-router.post("/", addPlan);
-router.put("/:id", updatePlan);
-router.delete("/:id", deletePlan);
+// Shared
+router.get("/", membershipController.getPlans);
+router.get("/:id", membershipController.getPlanById);
 
 module.exports = router;

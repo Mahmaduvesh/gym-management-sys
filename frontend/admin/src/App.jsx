@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 
 // Admin imports
 import AdminLayout from "./layouts/AdminLayout";
@@ -25,6 +29,9 @@ import UserRegister from "./pages/user/UserRegister";
 import UserDashboard from "./pages/user/UserDashboard";
 import ProtectedUserRoute from "./components/ProtectedUserRoute";
 import UserForgotPassword from "./pages/user/UserForgotPassword";
+import Users from "./pages/Users";
+import AddUserModal from "./pages/AddUserModal";
+import EditMembership from "./pages/EditMembership";
 
 function App() {
   return (
@@ -38,6 +45,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="users" element={<Users />} />
+            <Route path="add-user" element={<AddUserModal />} />
             <Route path="memberships" element={<MembershipList />} />
             <Route path="memberships/add" element={<AddMembership />} />
             <Route path="memberships/edit/:id" element={<AddMembership />} />
@@ -50,6 +59,7 @@ function App() {
             <Route path="feedbacks" element={<Feedbacks />} />
             <Route path="testimonials" element={<Testimonials />} />
             <Route path="contacts" element={<Contacts />} />
+            <Route path="/memberships/edit/:id" element={<EditMembership />} />
           </Route>
         </Route>
 

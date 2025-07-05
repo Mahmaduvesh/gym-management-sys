@@ -9,7 +9,7 @@ export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ name: "", message: "", role: "" });
+  const [form, setForm] = useState({ name: "", text: "", role: "", rating: 5 });
   const [photoFile, setPhotoFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -23,7 +23,10 @@ export default function Testimonials() {
     fetch("http://localhost:5000/api/testimonials")
       .then((res) => res.json())
       .then((data) => {
-        setTestimonials(data.reverse());
+        const sorted = [...data].sort(
+          (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
+        );
+        setTestimonials(sorted);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -31,10 +34,12 @@ export default function Testimonials() {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.message)
-      return toast.error("Name and message are required.");
-    setUploading(true);
+    if (!form.name || !form.text) {
+      toast.error("Name and message are required.");
+      return;
+    }
 
+    setUploading(true);
     let photoUrl = "";
 
     if (photoFile) {
@@ -57,10 +62,19 @@ export default function Testimonials() {
       });
     }
 
+    const payload = {
+      name: form.name,
+      role: form.role,
+      text: form.text,
+      image: photoUrl,
+      rating: parseInt(form.rating) || 5,
+      timestamp: Date.now(),
+    };
+
     fetch("http://localhost:5000/api/testimonials", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, photo: photoUrl }),
+      body: JSON.stringify(payload),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
@@ -68,7 +82,7 @@ export default function Testimonials() {
       })
       .then(() => {
         toast.success("Testimonial added!");
-        setForm({ name: "", message: "", role: "" });
+        setForm({ name: "", text: "", role: "", rating: 5 });
         setPhotoFile(null);
         setShowForm(false);
         fetchTestimonials();
@@ -123,6 +137,17 @@ export default function Testimonials() {
               onChange={(e) => setForm({ ...form, role: e.target.value })}
               className="bg-gray-800 text-white p-2 rounded border border-gray-700 w-full"
             />
+            <select
+              value={form.rating}
+              onChange={(e) => setForm({ ...form, rating: e.target.value })}
+              className="bg-gray-800 text-white p-2 rounded border border-gray-700 w-full"
+            >
+              {[1, 2, 3, 4, 5].map((r) => (
+                <option key={r} value={r}>
+                  {r} Star{r > 1 ? "s" : ""}
+                </option>
+              ))}
+            </select>
             <input
               type="file"
               accept="image/*"
@@ -132,8 +157,8 @@ export default function Testimonials() {
             <textarea
               rows={3}
               placeholder="Message"
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              value={form.text}
+              onChange={(e) => setForm({ ...form, text: e.target.value })}
               className="bg-gray-800 text-white p-2 rounded border border-gray-700 w-full md:col-span-2"
             />
           </div>
@@ -159,22 +184,25 @@ export default function Testimonials() {
               key={t.id}
               className="bg-[#1E293B] p-5 rounded-xl shadow-md border border-gray-700 flex flex-col md:flex-row gap-4"
             >
-              {t.photo ? (
+              {t.image ? (
                 <img
-                  src={t.photo}
+                  src={t.image}
                   alt="testimonial"
                   className="w-20 h-20 rounded-full object-cover border border-gray-600"
                 />
               ) : (
                 <div className="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center text-white text-xl">
-                  {t.name.charAt(0)}
+                  {t.name?.charAt(0)}
                 </div>
               )}
               <div className="flex-1">
                 <p className="text-lg font-semibold">{t.name}</p>
                 {t.role && <p className="text-sm text-gray-400">{t.role}</p>}
-                <p className="text-gray-300 mt-2 whitespace-pre-wrap">
-                  {t.message}
+                <p className="text-yellow-400 text-sm mb-1">
+                  {"⭐".repeat(t.rating || 5)}
+                </p>
+                <p className="text-gray-300 mt-1 whitespace-pre-wrap">
+                  {t.text || t.message}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
                   {new Date(t.timestamp || Date.now()).toLocaleString()}
