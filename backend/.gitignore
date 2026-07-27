@@ -1,30 +1,34 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.*
+
+# Firebase Secrets
+config/firebase-adminsdk.json
+config/serviceAccountKey.json
+
+# Build
+dist/
+build/
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# Dependency directories
-node_modules
-dist
-dist-ssr
-*.local
+# Archives
+*.zip
+*.rar
+*.7z
 
-# Firebase Admin SDK key - prevent committing secrets
-echo "backend/config/firebase-adminsdk.json" >> .gitignore
-echo "backend/config/firebase-adminsdk.json"
-backend/config/firebase-adminsdk.json
-backend/config.js
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# IDE
+.vscode/
+.idea/
+
+# OS
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db

@@ -9,5 +9,10 @@ const {
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/forgot-password", userForgotPassword);
-
+router.get("/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "User Auth Route Working"
+  });
+});
 module.exports = router;
