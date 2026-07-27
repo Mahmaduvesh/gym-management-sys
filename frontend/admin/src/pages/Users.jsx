@@ -8,6 +8,7 @@ import {
   FaEdit,
 } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import API_URL from "../utils/api";
 import "react-toastify/dist/ReactToastify.css";
 import EditUserModal from "./EditUserModal";
 
@@ -21,8 +22,8 @@ export default function Users() {
   const [sortField, setSortField] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 5;
-  import API_URL from "../utils/api";
 
   const fetchUsers = () => {
     setLoading(true);
