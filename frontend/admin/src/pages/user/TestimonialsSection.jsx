@@ -4,6 +4,8 @@ import { FaStar } from "react-icons/fa";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import API_URL from "../../utils/api";
+
 
 // Custom arrows
 const PrevArrow = ({ onClick }) => (
@@ -42,7 +44,7 @@ export default function TestimonialSection() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/testimonials")
+    fetch("${API_URL}/api/testimonials")
       .then((res) => res.json())
       .then((data) => {
         const sorted = [...data].sort(

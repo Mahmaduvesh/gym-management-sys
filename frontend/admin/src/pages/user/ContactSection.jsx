@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import API_URL from "../../utils/api";
 export default function ContactSection() {
   const formik = useFormik({
     initialValues: {
@@ -22,7 +22,7 @@ export default function ContactSection() {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const response = await fetch("http://localhost:5000/api/contacts/", {
+        const response = await fetch("${API_URL}/api/contacts/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

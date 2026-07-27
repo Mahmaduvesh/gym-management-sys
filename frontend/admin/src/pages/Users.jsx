@@ -22,10 +22,11 @@ export default function Users() {
   const [sortOrder, setSortOrder] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  import API_URL from "../utils/api";
 
   const fetchUsers = () => {
     setLoading(true);
-    fetch("http://localhost:5000/api/users")
+    fetch("${API_URL}/api/users")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
@@ -52,7 +53,7 @@ export default function Users() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/users/${id}`, {
+    fetch(`${API_URL}/api/users/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -64,7 +65,7 @@ export default function Users() {
   };
 
   const handleSave = (formData) => {
-    const url = `http://localhost:5000/api/users/${editUser.id}`;
+    const url = `${API_URL}/api/users/${editUser.id}`;
     fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

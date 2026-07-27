@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API_URL from "../utils/api";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
@@ -17,7 +18,7 @@ export default function Contacts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/contacts")
+    fetch("${API_URL}/api/contacts")
       .then((res) => {
         if (!res.ok) throw new Error("403 Forbidden or Server Error");
         return res.json();
@@ -47,7 +48,7 @@ export default function Contacts() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/contacts/${id}`, {
+    fetch(`${API_URL}/api/contacts/${id}`, {
       method: "DELETE",
     })
       .then(() => {

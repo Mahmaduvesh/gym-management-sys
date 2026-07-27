@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import API_URL from "../utils/api";
 
 export default function AddDiet() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ export default function AddDiet() {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/diets/${id}`)
+      fetch(`${API_URL}/api/diets/${id}`)
         .then((res) => res.json())
         .then((data) => setForm(data))
         .catch(() => alert("Failed to fetch diet plan."));
@@ -31,8 +32,8 @@ export default function AddDiet() {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/diets/${id}`
-      : "http://localhost:5000/api/diets";
+      ? `${API_URL}/api/diets/${id}`
+      : "${API_URL}/api/diets";
 
     fetch(url, {
       method,

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import API_URL from "../utils/api";
 
 export default function EditMembership() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ export default function EditMembership() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/memberships/${id}`)
+    fetch(`${API_URL}/api/memberships/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.id) {
@@ -63,7 +64,7 @@ export default function EditMembership() {
     e.preventDefault();
     setSaving(true);
 
-    fetch(`http://localhost:5000/api/memberships/${id}`, {
+    fetch(`${API_URL}/api/memberships/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

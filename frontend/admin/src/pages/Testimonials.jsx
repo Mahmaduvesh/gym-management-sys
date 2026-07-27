@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import API_URL from "../utils/api";
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
@@ -20,7 +21,7 @@ export default function Testimonials() {
 
   const fetchTestimonials = () => {
     setLoading(true);
-    fetch("http://localhost:5000/api/testimonials")
+    fetch("${API_URL}/api/testimonials")
       .then((res) => res.json())
       .then((data) => {
         const sorted = [...data].sort(
@@ -71,7 +72,7 @@ export default function Testimonials() {
       timestamp: Date.now(),
     };
 
-    fetch("http://localhost:5000/api/testimonials", {
+    fetch("${API_URL}/api/testimonials", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -92,7 +93,7 @@ export default function Testimonials() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/testimonials/${id}`, {
+    fetch(`${API_URL}/api/testimonials/${id}`, {
       method: "DELETE",
     })
       .then(() => {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import API_URL from "../utils/api";
 
 export default function AddTraining() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function AddTraining() {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/training/${id}`)
+      fetch(`${API_URL}/api/training/${id}`)
         .then((res) => res.json())
         .then((data) => setForm(data));
     }
@@ -27,8 +28,8 @@ export default function AddTraining() {
     e.preventDefault();
 
     const url = id
-      ? `http://localhost:5000/api/training/${id}`
-      : "http://localhost:5000/api/training";
+      ? `${API_URL}/api/training/${id}`
+      : "${API_URL}/api/training";
 
     const method = id ? "PUT" : "POST";
 

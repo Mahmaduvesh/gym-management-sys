@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API_URL from "../../utils/api";
+
 
 export default function UserLoginRegister() {
   const [isLogin, setIsLogin] = useState(true);
@@ -42,7 +44,7 @@ export default function UserLoginRegister() {
 
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

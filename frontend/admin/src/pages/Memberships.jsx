@@ -1,6 +1,7 @@
 // --- Admin Side: MembershipList.jsx ---
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import API_URL from "../utils/api";
 
 export default function MembershipList() {
   const [memberships, setMemberships] = useState([]);
@@ -8,7 +9,7 @@ export default function MembershipList() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/memberships")
+    fetch("${API_URL}/api/memberships")
       .then((res) => res.json())
       .then((data) => {
         setMemberships(data);
@@ -24,7 +25,7 @@ export default function MembershipList() {
     if (
       window.confirm("Are you sure you want to delete this membership plan?")
     ) {
-      fetch(`http://localhost:5000/api/memberships/${id}`, {
+      fetch(`${API_URLL}/api/memberships/${id}`, {
         method: "DELETE",
       })
         .then(() => {

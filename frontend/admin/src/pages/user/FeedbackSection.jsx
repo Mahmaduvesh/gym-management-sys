@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API_URL from "../../utils/api";
 
 export default function FeedbackForm() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -26,7 +27,7 @@ export default function FeedbackForm() {
           date: today,
         };
 
-        const res = await fetch("http://localhost:5000/api/feedback", {
+        const res = await fetch("${API_URL}/api/feedback", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(feedbackData),

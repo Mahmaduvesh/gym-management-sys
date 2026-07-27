@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaCalendarAlt, FaClock, FaDumbbell } from "react-icons/fa";
+import API_URL from "../../utils/api";
+
 
 export default function MembershipSection() {
   const [billing, setBilling] = useState("monthly");
   const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/memberships")
+    fetch("${API_URL}/api/memberships")
       .then((res) => res.json())
       .then((data) => setPlans(data))
       .catch(() => setPlans([]));

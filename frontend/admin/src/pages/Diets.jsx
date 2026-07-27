@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import API_URL from "../utils/api";
 
 export default function Diets() {
   const [diets, setDiets] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/diets")
+    fetch("${API_URL}/api/diets")
       .then((res) => res.json())
       .then((data) => setDiets(data))
       .catch((err) => console.error(err));
@@ -14,7 +15,7 @@ export default function Diets() {
 
   const handleDelete = (id) => {
     if (confirm("Are you sure you want to delete this diet plan?")) {
-      fetch(`http://localhost:5000/api/diets/${id}`, {
+      fetch(`${API_URL}/api/diets/${id}`, {
         method: "DELETE",
       })
         .then(() => setDiets((prev) => prev.filter((diet) => diet.id !== id)))

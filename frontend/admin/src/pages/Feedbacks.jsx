@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaCheckCircle, FaTrashAlt } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API_URL from "../utils/api";
 
 export default function Feedbacks() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -10,7 +11,7 @@ export default function Feedbacks() {
   const [deleteId, setDeleteId] = useState(null);
 
   const fetchFeedbacks = () => {
-    fetch("http://localhost:5000/api/feedbacks")
+    fetch("${API_URL}/api/feedbacks")
       .then((res) => res.json())
       .then((data) => {
         setFeedbacks(data);
@@ -24,7 +25,7 @@ export default function Feedbacks() {
   }, []);
 
   const handleMarkReviewed = (id) => {
-    fetch(`http://localhost:5000/api/feedbacks/review/${id}`, {
+    fetch(`${API_URL}/api/feedbacks/review/${id}`, {
       method: "PATCH",
     }).then(() => {
       setFeedbacks((prev) =>
@@ -35,7 +36,7 @@ export default function Feedbacks() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/feedbacks/${id}`, {
+    fetch(`${API_URL}/api/feedbacks/${id}`, {
       method: "DELETE",
     }).then((res) => {
       if (res.ok) {

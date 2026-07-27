@@ -18,8 +18,32 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-// ✅ Middleware
-app.use(cors());
+// ✅ Allowed Origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://gym-management-sys-1.onrender.com",
+  // Replace with your Netlify URL after deployment
+  "https://gym-sys-uv.netlify.app/admin-auth"
+];
+
+// ✅ CORS Middleware
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow Postman, server-to-server requests, etc.
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS policy: Origin not allowed"));
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // ✅ API Routes
@@ -36,11 +60,20 @@ app.use("/api/user", userAuthRoutes);
 
 app.use("/api", require("./routes/stats"));
 
-// Routes fect all users
+// ✅ Fetch all users
 app.use("/api/users", userRoutes);
+
+// ✅ Health Check
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Gym Management Backend API is running 🚀",
+  });
+});
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });

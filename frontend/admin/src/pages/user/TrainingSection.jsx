@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import dayjs from "dayjs";
+import API_URL from "../../utils/api";
 
 export default function TrainingSection() {
   const [trainings, setTrainings] = useState([]);
@@ -8,7 +9,7 @@ export default function TrainingSection() {
 
   const fetchTrainings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/Training");
+      const res = await fetch("${API_URL}/api/Training");
       const data = await res.json();
       setTrainings(data);
     } catch (err) {

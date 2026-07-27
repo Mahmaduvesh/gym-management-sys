@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import API_URL from "../utils/api";
 
 export default function Trainings() {
   const [trainings, setTrainings] = useState([]);
@@ -11,7 +12,7 @@ export default function Trainings() {
 
   const fetchTrainings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/training");
+      const res = await fetch("${API_URL}/api/training");
       const data = await res.json();
       setTrainings(data);
     } catch (err) {
@@ -38,7 +39,7 @@ export default function Trainings() {
   const handleDelete = async (id) => {
     if (confirm("Delete this training plan?")) {
       try {
-        await fetch(`http://localhost:5000/api/training/${id}`, {
+        await fetch(`${API_URL}/api/training/${id}`, {
           method: "DELETE",
         });
         setTrainings((prev) => prev.filter((item) => item.id !== id));
@@ -50,7 +51,7 @@ export default function Trainings() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/training", {
+      const response = await fetch("${API_URL}/api/training", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

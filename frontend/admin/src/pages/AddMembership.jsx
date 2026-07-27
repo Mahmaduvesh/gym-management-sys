@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import API_URL from "../utils/api";
 
 export default function AddMembership() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function AddMembership() {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/api/memberships/${id}`)
+      fetch(`${API_URL}/api/memberships/${id}`)
         .then((res) => res.json())
         .then((data) => setForm(data));
     }
@@ -45,8 +46,8 @@ export default function AddMembership() {
     e.preventDefault();
     const method = id ? "PUT" : "POST";
     const url = id
-      ? `http://localhost:5000/api/memberships/${id}`
-      : `http://localhost:5000/api/memberships`;
+      ? `${API_URL}/api/memberships/${id}`
+      : `${API_URL}/api/memberships`;
 
     fetch(url, {
       method,

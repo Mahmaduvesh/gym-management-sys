@@ -3,6 +3,7 @@ import { FaUserShield, FaEnvelope, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API_URL from "../utils/api";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -28,7 +29,7 @@ export default function AuthPage() {
     const endpoint = isLogin ? "/api/admin/login" : "/api/admin/register";
 
     try {
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
