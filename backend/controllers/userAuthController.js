@@ -8,20 +8,37 @@ const SECRET = process.env.JWT_SECRET;
 // 📌 Register
 exports.registerUser = async (req, res) => {
   try {
+    console.log("===== REGISTER START =====");
+
     const { name, email, password } = req.body;
+    console.log("Received:", { name, email });
+
     const id = uuidv4();
+    console.log("UUID:", id);
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Password hashed");
 
+    console.log("Writing to Firebase...");
     await admin.database().ref(`users/${id}`).set({
       name,
       email,
       password: hashedPassword,
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    console.log("Firebase write completed");
+
+    return res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("REGISTER ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
   }
 };
 

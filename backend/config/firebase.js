@@ -1,9 +1,12 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("./firebase-adminsdk.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://gym-management-50f61-default-rtdb.firebaseio.com",
-});
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+  });
+}
 
 module.exports = admin;
