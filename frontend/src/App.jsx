@@ -30,11 +30,13 @@ import UserDashboard from "./pages/user/UserDashboard";
 import UserForgotPassword from "./pages/user/UserForgotPassword";
 import ProtectedUserRoute from "./components/ProtectedUserRoute";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/user-login" replace />} />
 
@@ -42,25 +44,16 @@ function App() {
 
         <Route path="/user-login" element={<UserLogin />} />
         <Route path="/user-register" element={<UserRegister />} />
-        <Route
-          path="/user-forgot-password"
-          element={<UserForgotPassword />}
-        />
+        <Route path="/user-forgot-password" element={<UserForgotPassword />} />
 
         <Route element={<ProtectedUserRoute />}>
-          <Route
-            path="/user-dashboard"
-            element={<UserDashboard />}
-          />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
         </Route>
 
         {/* ================= ADMIN ROUTES ================= */}
 
         <Route path="/admin-auth" element={<AuthPage />} />
-        <Route
-          path="/forgot-password"
-          element={<ForgetPassword />}
-        />
+        <Route path="/forgot-password" element={<ForgetPassword />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminLayout />}>
@@ -70,48 +63,36 @@ function App() {
             <Route path="add-user" element={<AddUserModal />} />
 
             <Route path="memberships" element={<MembershipList />} />
-            <Route
-              path="memberships/add"
-              element={<AddMembership />}
-            />
-            <Route
-              path="memberships/edit/:id"
-              element={<EditMembership />}
-            />
+            <Route path="memberships/add" element={<AddMembership />} />
+            <Route path="memberships/edit/:id" element={<EditMembership />} />
 
             <Route path="trainings" element={<TrainingList />} />
-            <Route
-              path="trainings/add"
-              element={<AddTraining />}
-            />
-            <Route
-              path="trainings/edit/:id"
-              element={<AddTraining />}
-            />
+            <Route path="trainings/add" element={<AddTraining />} />
+            <Route path="trainings/edit/:id" element={<AddTraining />} />
 
             <Route path="diets" element={<DietPlans />} />
             <Route path="diets/add" element={<AddDiet />} />
-            <Route
-              path="diets/edit/:id"
-              element={<AddDiet />}
-            />
+            <Route path="diets/edit/:id" element={<AddDiet />} />
 
-            <Route
-              path="feedbacks"
-              element={<Feedbacks />}
-            />
-            <Route
-              path="testimonials"
-              element={<Testimonials />}
-            />
+            <Route path="feedbacks" element={<Feedbacks />} />
+            <Route path="testimonials" element={<Testimonials />} />
             <Route path="contacts" element={<Contacts />} />
           </Route>
         </Route>
 
         {/* 404 */}
         <Route path="*" element={<Navigate to="/user-login" replace />} />
-
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </BrowserRouter>
   );
 }

@@ -27,18 +27,35 @@ export default function FeedbackForm() {
           date: today,
         };
 
-        const res = await fetch("${API_URL}/api/feedback", {
+        const res = await fetch(`${API_URL}/api/feedbacks`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(feedbackData),
         });
 
-        if (!res.ok) throw new Error("Failed to submit feedback");
+        const data = await res.json();
 
-        toast.success("Feedback submitted!");
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to submit feedback");
+        }
+
+        toast.success("🎉 Feedback submitted successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+
         resetForm();
       } catch (err) {
-        toast.error(err.message);
+        toast.error(err.message || "❌ Failed to submit feedback", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+
+        console.error(err);
       }
     },
   });

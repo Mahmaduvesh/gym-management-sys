@@ -44,7 +44,7 @@ export default function TestimonialSection() {
   };
 
   useEffect(() => {
-    fetch("${API_URL}/api/testimonials")
+    fetch(`${API_URL}/api/testimonials`)
       .then((res) => res.json())
       .then((data) => {
         const sorted = [...data].sort(

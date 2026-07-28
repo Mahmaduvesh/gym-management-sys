@@ -9,7 +9,7 @@ export default function TrainingSection() {
 
   const fetchTrainings = async () => {
     try {
-      const res = await fetch("${API_URL}/api/Training");
+      const res = await fetch(`${API_URL}/api/Training`);
       const data = await res.json();
       setTrainings(data);
     } catch (err) {

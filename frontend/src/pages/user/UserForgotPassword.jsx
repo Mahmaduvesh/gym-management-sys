@@ -12,7 +12,7 @@ export default function UserForgotPassword() {
     e.preventDefault();
     try {
       const res = await fetch(
-        "${API_URL}/api/user/forgot-password",
+        `${API_URL}/api/user/forgot-password`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

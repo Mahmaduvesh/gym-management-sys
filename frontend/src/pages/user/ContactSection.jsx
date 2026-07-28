@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import API_URL from "../../utils/api";
+
 export default function ContactSection() {
   const formik = useFormik({
     initialValues: {
@@ -12,17 +13,19 @@ export default function ContactSection() {
       phone: "",
       message: "",
     },
+
     validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
+      name: Yup.string().trim().required("Name is required"),
       email: Yup.string().email("Invalid email").required("Email is required"),
       phone: Yup.string()
-        .matches(/^[0-9]{10}$/, "Enter valid 10-digit phone number")
+        .matches(/^[0-9]{10}$/, "Enter a valid 10-digit phone number")
         .required("Phone is required"),
-      message: Yup.string().required("Message is required"),
+      message: Yup.string().trim().required("Message is required"),
     }),
-    onSubmit: async (values, { resetForm }) => {
+
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        const response = await fetch("${API_URL}/api/contacts/", {
+        const response = await fetch(`${API_URL}/api/contacts`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -32,12 +35,27 @@ export default function ContactSection() {
 
         const data = await response.json();
 
-        if (!response.ok) throw new Error(data.error || "Submission failed");
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to send message");
+        }
 
-        toast.success("Message submitted successfully!");
+        toast.success("🎉 Message sent successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+
         resetForm();
       } catch (err) {
-        toast.error(err.message);
+        console.error(err);
+
+        toast.error(err.message || "❌ Failed to send message!", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -47,7 +65,9 @@ export default function ContactSection() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-4xl font-bold mb-2">Contact Us</h2>
-          <p className="text-gray-300">We’ll get back to you shortly.</p>
+          <p className="text-gray-300">
+            We'd love to hear from you. Send us a message anytime.
+          </p>
         </div>
 
         <form
@@ -126,9 +146,14 @@ export default function ContactSection() {
 
           <button
             type="submit"
-            className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-full font-semibold transition"
+            disabled={formik.isSubmitting}
+            className={`w-full py-3 rounded-full font-semibold transition ${
+              formik.isSubmitting
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700 text-white"
+            }`}
           >
-            Send Message
+            {formik.isSubmitting ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>

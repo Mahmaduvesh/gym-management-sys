@@ -26,27 +26,45 @@ export default function AuthPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const endpoint = isLogin ? "/api/admin/login" : "/api/admin/register";
 
     try {
       const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || "Something went wrong");
-
-      toast.success(isLogin ? "Login successful" : "Registration successful");
+      if (!res.ok) {
+        throw new Error(data.error || data.message || "Something went wrong");
+      }
 
       if (isLogin) {
-        localStorage.setItem("token", data.token);
-        setTimeout(() => navigate("/"), 1500); // wait for toast before redirect
+        // Store Admin Token
+        localStorage.setItem("adminToken", data.token);
+
+        toast.success("Admin Login Successful");
+
+        setTimeout(() => {
+          navigate("/admin");
+        }, 1000);
       } else {
-        setIsLogin(true); // switch to login after register
+        toast.success("Admin Registered Successfully");
+
+        setIsLogin(true);
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+        });
       }
     } catch (err) {
+      console.error(err);
       toast.error(err.message || "Something went wrong");
     }
   };

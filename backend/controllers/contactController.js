@@ -5,25 +5,43 @@ const { v4: uuidv4 } = require("uuid");
 exports.addContact = async (req, res) => {
   try {
     const id = uuidv4();
+
     const data = {
       ...req.body,
-      date: new Date().toISOString().split("T")[0],
+      createdAt: new Date().toISOString(), // Full timestamp
     };
+
     await admin.database().ref(`contacts/${id}`).set(data);
-    res.status(201).json({ message: "Contact message submitted", id });
+
+    res.status(201).json({
+      message: "Contact message submitted",
+      id,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Get All Contact Messages (admin)
+// Get All Contact Messages (Admin)
 exports.getContacts = async (req, res) => {
   try {
     const snapshot = await admin.database().ref("contacts").once("value");
     const messages = snapshot.val() || {};
-    res
-      .status(200)
-      .json(Object.entries(messages).map(([id, val]) => ({ id, ...val })));
+
+    const contacts = Object.entries(messages).map(([id, val]) => ({
+      id,
+      ...val,
+    }));
+
+    // Newest first
+    contacts.sort((a, b) => {
+      const timeA = new Date(a.createdAt || a.date || 0).getTime();
+      const timeB = new Date(b.createdAt || b.date || 0).getTime();
+
+      return timeB - timeA;
+    });
+
+    res.status(200).json(contacts);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

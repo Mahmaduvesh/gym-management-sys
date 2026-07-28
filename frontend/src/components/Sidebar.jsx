@@ -12,14 +12,14 @@ import {
 } from "react-icons/fi";
 
 const links = [
-  { name: "Dashboard", path: "/", icon: <FiHome /> },
-  { name: "Users", path: "/users", icon: <FiUsers /> },
-  { name: "Memberships", path: "/memberships", icon: <FiUsers /> },
-  { name: "Trainings", path: "/trainings", icon: <FiBookOpen /> },
-  { name: "Diets", path: "/diets", icon: <FiClipboard /> },
-  { name: "Feedbacks", path: "/feedbacks", icon: <FiMessageCircle /> },
-  { name: "Testimonials", path: "/testimonials", icon: <FiStar /> },
-  { name: "Contacts", path: "/contacts", icon: <FiPhone /> },
+  { name: "Dashboard", path: "/admin", icon: <FiHome /> },
+  { name: "Users", path: "/admin/users", icon: <FiUsers /> },
+  { name: "Memberships", path: "/admin/memberships", icon: <FiUsers /> },
+  { name: "Trainings", path: "/admin/trainings", icon: <FiBookOpen /> },
+  { name: "Diets", path: "/admin/diets", icon: <FiClipboard /> },
+  { name: "Feedbacks", path: "/admin/feedbacks", icon: <FiMessageCircle /> },
+  { name: "Testimonials", path: "/admin/testimonials", icon: <FiStar /> },
+  { name: "Contacts", path: "/admin/contacts", icon: <FiPhone /> },
 ];
 
 export default function Sidebar({ open, setOpen }) {

@@ -11,7 +11,7 @@ export default function Feedbacks() {
   const [deleteId, setDeleteId] = useState(null);
 
   const fetchFeedbacks = () => {
-    fetch("${API_URL}/api/feedbacks")
+    fetch(`${API_URL}/api/feedbacks`)
       .then((res) => res.json())
       .then((data) => {
         setFeedbacks(data);

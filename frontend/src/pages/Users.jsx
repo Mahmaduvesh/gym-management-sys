@@ -27,7 +27,7 @@ export default function Users() {
 
   const fetchUsers = () => {
     setLoading(true);
-    fetch("${API_URL}/api/users")
+    fetch(`${API_URL}/api/users`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

@@ -5,8 +5,8 @@ export default function Topbar({ setSidebarOpen }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Clear token
-    navigate("/admin-auth"); // Redirect to login
+    localStorage.removeItem("adminToken");
+    navigate("/admin-auth");
   };
 
   return (

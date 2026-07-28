@@ -1,0 +1,40 @@
+basic Membership
+Monthly : ₹1498
+
+Yearly : ₹-
+
+Duration : 5AM – 11AM / 3PM – 11PM
+
+Features
+All Standard plan features
+Unlimited Personal Training
+Nutrition & Diet Consultation
+Sauna access
+Edit
+Delete
+Advanced Membership
+Monthly : ₹2599
+
+Yearly : ₹-
+
+Duration : 6AM – 9AM / 5PM – 8PM
+
+Features
+Access to gym floor
+Locker facility
+Basic cardio equipment
+Edit
+Delete
+Premium Membership
+Monthly : ₹3500
+
+Yearly : ₹-
+
+Duration : 5AM – 11AM / 3PM – 11PM
+
+Features
+All Standard plan features
+Unlimited Personal Training
+Nutrition & Diet Consultation
+Sauna access
+Edit

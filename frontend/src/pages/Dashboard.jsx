@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("${API_URL}/api/stats")
+    fetch(`${API_URL}/api/stats`)
       .then((res) => res.json())
       .then((data) => setStats(data))
       .catch((err) => console.error("Error fetching stats:", err))

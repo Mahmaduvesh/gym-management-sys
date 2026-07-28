@@ -16,7 +16,7 @@ export default function AddUserModal({ onClose, onUserAdded }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("${API_URL}/api/users", {
+      const res = await fetch(`${API_URL}/api/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

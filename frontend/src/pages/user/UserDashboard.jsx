@@ -24,8 +24,8 @@ export default function UserDashboard() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // or whatever key you use
-    navigate("/"); // or "/login"
+    localStorage.removeItem("userToken");
+    navigate("/user-login");
   };
 
   const navItems = [

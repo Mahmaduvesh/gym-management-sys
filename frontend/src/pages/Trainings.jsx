@@ -12,7 +12,7 @@ export default function Trainings() {
 
   const fetchTrainings = async () => {
     try {
-      const res = await fetch("${API_URL}/api/training");
+      const res = await fetch(`${API_URL}/api/training`);
       const data = await res.json();
       setTrainings(data);
     } catch (err) {
@@ -51,7 +51,7 @@ export default function Trainings() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("${API_URL}/api/training", {
+      const response = await fetch(`${API_URL}/api/training`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

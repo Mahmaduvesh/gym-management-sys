@@ -14,6 +14,11 @@ const testimonialRoutes = require("./routes/testimonialRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 
+// Membership Initializer
+const {
+  initializeDefaultMemberships,
+} = require("./controllers/membershipController");
+
 // User Routes
 const userAuthRoutes = require("./routes/userAuthRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -32,7 +37,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow Postman, Thunder Client, Render Health Checks
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -46,7 +50,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
 // ==========================================
@@ -104,10 +108,9 @@ app.use("/api/feedbacks", feedbackRoutes);
 app.use("/api/contacts", contactRoutes);
 
 app.use("/api/user", userAuthRoutes);
+app.use("/api/users", userRoutes);
 
 app.use("/api", require("./routes/stats"));
-
-app.use("/api/users", userRoutes);
 
 // ==========================================
 // 404 Handler
@@ -139,6 +142,18 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+async function startServer() {
+  try {
+    // Create default membership plans only if none exist
+    await initializeDefaultMemberships();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Failed to initialize application:", err);
+    process.exit(1);
+  }
+}
+
+startServer();
